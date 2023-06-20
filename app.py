@@ -16,6 +16,16 @@ mysql.init_app(app)
 def inicio():
     return render_template('sitio/index.html')
 
+@app.route('/admin/mensajes')
+def mensajes():
+    conexion=mysql.connect()
+    cursor= conexion.cursor()
+    cursor.execute("SELECT * FROM `mensajes`")
+    mensajes=cursor.fetchall()
+    conexion.commit()
+    print(mensajes)
+    return render_template('admin/index.html', mensajes=mensajes)
+
 @app.route('/sitio/contacto/mensaje',methods=['POST'])
 def mensajeContacto():
     _nombre = request.form['nombre']
@@ -25,7 +35,7 @@ def mensajeContacto():
 
     hora_actual = date.today()
     print(hora_actual)
-    sql="INSERT INTO `mensajes`(`idMensaje`, `nombre`, `correo`, `telefono`, `mensaje`, `fecha`) VALUES ('2',%s,%s,%s,%s,%s);"
+    sql="INSERT INTO `mensajes`(`nombre`, `correo`, `telefono`, `mensaje`, `fecha`) VALUES (%s,%s,%s,%s,%s);"
     datos=(_nombre,_email,_telefono,_mensaje,hora_actual)
     conexion=mysql.connect()
     cursor=conexion.cursor()
