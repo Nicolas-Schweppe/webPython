@@ -1,9 +1,13 @@
 from flask import Flask , render_template ,request , redirect
-from flaskext.mysql import MySQL
 from datetime import date
+from flaskext.mysql import MySQL
+from config import config
 
 
 app=Flask(__name__)
+
+
+
 mysql=MySQL()
 
 app.config['MYSQL_DATABASE_HOST']='localhost'
@@ -15,6 +19,10 @@ mysql.init_app(app)
 @app.route('/')
 def inicio():
     return render_template('sitio/index.html')
+
+@app.route('/admin/login')
+def login():
+    return render_template('admin/login.html')
 
 @app.route('/admin/mensajes')
 def mensajes():
@@ -45,5 +53,8 @@ def mensajeContacto():
     return redirect('/')
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
+#if __name__ == '__main__':
+#   app.run(debug=True)
+if __name__== '__main__':
+    app.config.from_object(config['development'])
+    app.run()
