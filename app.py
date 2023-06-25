@@ -45,11 +45,11 @@ def mensajeContacto():
     print(hora_actual)
     sql="INSERT INTO `mensajes`(`nombre`, `correo`, `telefono`, `mensaje`, `fecha`) VALUES (%s,%s,%s,%s,%s);"
     datos=(_nombre,_email,_telefono,_mensaje,hora_actual)
-    conexion=mysql.connect()
-    cursor=conexion.cursor()
-    cursor.execute(sql,datos)
-    conexion.commit()
-
+    if _email:
+        conexion=mysql.connect()
+        cursor=conexion.cursor()
+        cursor.execute(sql,datos)
+        conexion.commit()
     return redirect('/')
 
 
