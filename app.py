@@ -1,7 +1,9 @@
 from flask import Flask , render_template ,request , redirect
 from datetime import date
 from flaskext.mysql import MySQL
-from config import config
+from config import configuracion
+from decouple import config
+from routes.routes import routes
 
 
 app=Flask(__name__)
@@ -10,12 +12,17 @@ app=Flask(__name__)
 
 mysql=MySQL()
 
-app.config['MYSQL_DATABASE_HOST']='localhost'
-app.config['MYSQL_DATABASE_USER']='root'
-app.config['MYSQL_DATABASE_PASSWORD']=''
-app.config['MYSQL_DATABASE_DB']='portafolio'
+app.config['MYSQL_DATABASE_HOST']=config('MYSQL_HOST')
+app.config['MYSQL_DATABASE_USER']=config('MYSQL_USER')
+app.config['MYSQL_DATABASE_PASSWORD']=config('MYSQL_PASSWORD')
+app.config['MYSQL_DATABASE_DB']=config('MYSQL_DB')
 mysql.init_app(app)
 
+#Routes
+app.add_url_rule(routes["index_route"],view_func=routes["IndexController"])
+app.add_url_rule(routes["admin_login"],view_func=routes["AdminController"])
+
+"""
 @app.route('/')
 def inicio():
     return render_template('sitio/index.html')
@@ -51,10 +58,10 @@ def mensajeContacto():
         cursor.execute(sql,datos)
         conexion.commit()
     return redirect('/')
+"""
 
-
-#if __name__ == '__main__':
-#   app.run(debug=True)
-if __name__== '__main__':
-    app.config.from_object(config['development'])
+if __name__ == '__main__':
+    app.run(debug=True)
+#if __name__== '__main__':
+    app.config.from_object(configuracion['development'])
     app.run()
