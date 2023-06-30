@@ -9,7 +9,7 @@ from routes.routes import routes
 app=Flask(__name__)
 
 
-
+"""
 mysql=MySQL()
 
 app.config['MYSQL_DATABASE_HOST']=config('MYSQL_HOST')
@@ -17,10 +17,11 @@ app.config['MYSQL_DATABASE_USER']=config('MYSQL_USER')
 app.config['MYSQL_DATABASE_PASSWORD']=config('MYSQL_PASSWORD')
 app.config['MYSQL_DATABASE_DB']=config('MYSQL_DB')
 mysql.init_app(app)
-
+"""
 #Routes
 app.add_url_rule(routes["index_route"],view_func=routes["IndexController"])
 app.add_url_rule(routes["admin_login"],view_func=routes["AdminController"])
+app.add_url_rule(routes["mensajes_contactos"],view_func=routes["MensajesContactos"])
 
 """
 @app.route('/')
