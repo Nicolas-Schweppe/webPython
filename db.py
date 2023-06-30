@@ -1,3 +1,8 @@
 import pymysql
+from decouple import config
 
-mysql=pymysql.connect(host='localhost',user='root',passwd='',database='portafolio')
+def obtenerConexion():
+    return pymysql.connect(host=config('MYSQL_HOST'),
+                            user=config('MYSQL_USER'),
+                            passwd=config('MYSQL_PASSWORD'),
+                            database=config('MYSQL_DB'))

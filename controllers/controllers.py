@@ -1,8 +1,8 @@
 from flask.views import MethodView
 from flask import Flask , render_template ,request,redirect
-from db import mysql
 from datetime import date
-from flaskext.mysql import MySQL
+from db import obtenerConexion
+
 
 
 
@@ -28,15 +28,12 @@ class MensajesContactos(MethodView):
         _mensaje= request.form['mensaje']
         _hora_actual = date.today()
         print(_nombre,_email,_telefono,_mensaje,_hora_actual)
-"""
+
         sql="INSERT INTO `mensajes`(`nombre`, `correo`, `telefono`, `mensaje`, `fecha`) VALUES (%s,%s,%s,%s,%s);"
         datos=(_nombre,_email,_telefono,_mensaje,_hora_actual)
-        conexion=mysql.connect()
+        conexion = obtenerConexion()
         cursor=conexion.cursor()
         cursor.execute(sql,datos)
         conexion.commit()
-        #with mysql.cursor() as cur:
-"""        
-         #   cur.execute("INSERT INTO mensajes VALUES(%s,%s,%s,%s,%s)",(_nombre,_email,_telefono,_mensaje,_hora_actual))
-          #  cur.connection.commit()
-    #return redirect('/')
+
+        return redirect('/')
